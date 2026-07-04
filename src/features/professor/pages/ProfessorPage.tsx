@@ -335,7 +335,7 @@ export default function ProfessorPage() {
             <div className="rounded-2xl border border-white/10 bg-[#24313f] px-4 py-4 text-sm text-[#d5dde6] shadow-[0_14px_40px_rgba(0,0,0,0.18)]">
               <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                 <div>
-                  <h2 className="text-lg font-semibold text-white">Visao operacional da turma</h2>
+                  <h2 className="text-lg font-semibold text-white">Visao operacional do evento</h2>
                   <p className="mt-1 text-sm text-[#9db0c3]">
                     Mantivemos aqui apenas o acompanhamento dos cards do kanban para a leitura ficar mais limpa.
                   </p>

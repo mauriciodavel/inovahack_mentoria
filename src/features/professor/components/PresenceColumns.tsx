@@ -22,7 +22,7 @@ export default function PresenceColumns({
   return (
     <section className="grid gap-4 px-4 py-6 md:px-6 xl:grid-cols-5">
       <article className="rounded-lg bg-[#2c3e50] p-4">
-        <h2 className={cardTitleStyle('text-[#ecf0f1]')}>Login da turma</h2>
+        <h2 className={cardTitleStyle('text-[#ecf0f1]')}>Login dos Participantes</h2>
         <ul id="lista-ausente" className="mt-3 space-y-2">
           {listaPresenca.length === 0 ? (
             <li className="text-sm italic text-[#7f8c8d]">Nenhum aluno</li>

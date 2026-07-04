@@ -28,7 +28,7 @@ export default function TarefasList({
 				</div>
 				<div className="px-6 py-5">
 					<p className="text-[0.98rem] leading-relaxed text-[#95a5a6]">
-						Fale com o professor para liberar suas tarefas.
+						Fale com o organizador para liberar suas tarefas.
 					</p>
 				</div>
 			</section>
@@ -45,7 +45,7 @@ export default function TarefasList({
 					<div className="flex flex-wrap items-start justify-between gap-3 border-b border-white/8 bg-[linear-gradient(135deg,rgba(52,152,219,0.16),rgba(236,240,241,0.04))] px-6 py-5">
 						<div>
 							<p className="text-xs font-semibold uppercase tracking-[0.28em] text-[#7fc7ff]">
-								Unidade curricular
+								Evento
 							</p>
 							<h2 className="mt-2 text-xl font-semibold text-[#ecf0f1]">
 								{unidade}

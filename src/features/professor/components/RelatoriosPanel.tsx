@@ -36,9 +36,9 @@ export default function RelatoriosPanel({
 					<p className={cardTitleStyle('text-[#d8b4fe]')}>Painel de conclusao</p>
 					<div className="mt-4 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
 						<div>
-							<h2 className="text-2xl font-semibold text-white">Relatorios da turma em um lugar so</h2>
+							<h2 className="text-2xl font-semibold text-white">Relatorios dos eventos em um só lugar</h2>
 							<p className="mt-2 max-w-2xl text-sm text-[#d3dae3]">
-								Filtre por turma ou tarefa e acompanhe conclusoes, pendencias e o ritmo da aula
+								Filtre por evento ou tarefa e acompanhe conclusoes, pendencias e o ritmo da aula
 								sem misturar isso com a operacao do kanban.
 							</p>
 						</div>
@@ -63,14 +63,14 @@ export default function RelatoriosPanel({
 
 					<div className="mt-4 space-y-3">
 						<label className="block text-xs font-medium uppercase tracking-[0.16em] text-[#8fa3b8]">
-							Turma
+							Evento
 							<select
 								id="select-relatorio-turma"
 								className="mt-2 w-full rounded-xl border border-[#455a64] bg-[#1e272e] px-3 py-2.5 text-sm text-[#ecf0f1]"
 								value={filtroTurma}
 								onChange={(event) => onFiltroTurmaChange(event.target.value)}
 							>
-								<option value="">Todas as turmas</option>
+								<option value="">Todos os eventos</option>
 								{turmas.map((turma) => (
 									<option key={turma.id} value={turma.id}>
 										{turma.nome}
@@ -128,7 +128,7 @@ export default function RelatoriosPanel({
 
 			<div className="grid gap-4 xl:grid-cols-2">
 				<article className="rounded-2xl border border-white/10 bg-[#24313f] p-5">
-					<h3 className={cardTitleStyle('text-[#ecf0f1]')}>Conclusoes por turma</h3>
+					<h3 className={cardTitleStyle('text-[#ecf0f1]')}>Conclusoes por grupo</h3>
 					<ul id="relatorio-por-turma" className="mt-4 space-y-3 text-sm">
 						{!relatorio || relatorio.porTurma.length === 0 ? (
 							<li className="rounded-xl border border-dashed border-white/10 px-4 py-4 italic text-[#7f8c8d]">

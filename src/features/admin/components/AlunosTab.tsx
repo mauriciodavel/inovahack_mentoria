@@ -260,7 +260,7 @@ export default function AlunosTab({ alunos, turmas, reload }: Props) {
 
 	return (
 		<div>
-			<h2 className="mb-3 text-xl font-bold text-slate-100">Alunos</h2>
+			<h2 className="mb-3 text-xl font-bold text-slate-100">Competidores</h2>
 
 			{message && (
 				<div className={`mb-4 rounded border px-3 py-2 text-sm ${message.type === 'error' ? 'border-red-300 bg-red-100 text-red-800' : 'border-emerald-300 bg-emerald-100 text-emerald-800'}`}>

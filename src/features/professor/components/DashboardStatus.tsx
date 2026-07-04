@@ -22,7 +22,7 @@ export default function DashboardStatus({
 	return (
 		<section className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
 			<article className="rounded-2xl border border-white/10 bg-[#24313f] p-5">
-				<h3 className={cardTitleStyle('text-[#ecf0f1]')}>Pedidos de ajuda por aluno</h3>
+				<h3 className={cardTitleStyle('text-[#ecf0f1]')}>Pedidos de ajuda por Grupo de Desafio</h3>
 				<ul id="stats-alunos" className="mt-4 space-y-2">
 					{Object.entries(statsAlunos).length === 0 ? (
 						<li className="rounded-xl border border-dashed border-white/10 px-4 py-4 text-sm italic text-[#7f8c8d]">
@@ -41,7 +41,7 @@ export default function DashboardStatus({
 			</article>
 
 			<article className="rounded-2xl border border-white/10 bg-[#24313f] p-5">
-				<h3 className={cardTitleStyle('text-[#ecf0f1]')}>Atendimentos por monitor</h3>
+				<h3 className={cardTitleStyle('text-[#ecf0f1]')}>Atendimentos por mentor</h3>
 				<ul id="stats-monitores" className="mt-4 space-y-2">
 					{Object.entries(statsMonitores).length === 0 ? (
 						<li className="rounded-xl border border-dashed border-white/10 px-4 py-4 text-sm italic text-[#7f8c8d]">
@@ -60,7 +60,7 @@ export default function DashboardStatus({
 			</article>
 
 			<article className="rounded-2xl border border-white/10 bg-[#24313f] p-5">
-				<h3 className={cardTitleStyle('text-[#ecf0f1]')}>Media de avaliacao dos monitores</h3>
+				<h3 className={cardTitleStyle('text-[#ecf0f1]')}>Media de avaliacao dos mentores</h3>
 				<p className="text-xs italic text-[#95a5a6]">Nota dada pelos alunos</p>
 				<ul id="stats-media-monitores" className="mt-4 space-y-2">
 					{Object.entries(mediasMonitores).length === 0 ? (
@@ -84,7 +84,7 @@ export default function DashboardStatus({
 			</article>
 
 			<article className="rounded-2xl border border-white/10 bg-[#24313f] p-5">
-				<h3 className={cardTitleStyle('text-[#ecf0f1]')}>Media de avaliacao dos alunos</h3>
+				<h3 className={cardTitleStyle('text-[#ecf0f1]')}>Media de avaliacao dos grupos de desafio</h3>
 				<p className="text-xs italic text-[#95a5a6]">Nota dada pelos monitores</p>
 				<ul id="stats-media-alunos" className="mt-4 space-y-2">
 					{Object.entries(mediasAlunos).length === 0 ? (

@@ -192,11 +192,11 @@ export default function TarefasPage() {
             Acesso rapido
           </p>
           <h2 className="mt-2 text-xl font-semibold text-white">
-            Escolha a tarefa liberada pelo professor e siga para o acompanhamento.
+            Escolha a tarefa liberada pelo organizador e siga para o acompanhamento.
           </h2>
           <p className="mt-2 max-w-3xl text-sm leading-6 text-[#d4dde3]">
-            As tarefas ficam organizadas por unidade curricular. Quando uma atividade estiver
-            em andamento, o botao sera habilitado para voce entrar diretamente na tela do aluno.
+            As tarefas ficam organizadas por dia de evento. Quando uma atividade estiver
+            em andamento, o botao sera habilitado para voce entrar diretamente na tela do grupo competidor.
           </p>
         </div>
 
