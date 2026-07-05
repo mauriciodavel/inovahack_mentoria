@@ -17,6 +17,7 @@ type ViewMode = 'login' | 'change-password'
 function routeByRole(perfil?: string) {
   if (perfil === 'Monitor') return '/tarefas'
   if (perfil === 'Professor') return '/admin'
+  if (perfil === 'Avaliador') return '/avaliador'
   return '/tarefas'
 }
 

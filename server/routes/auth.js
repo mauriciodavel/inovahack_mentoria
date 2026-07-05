@@ -31,6 +31,17 @@ function createAuthRouter({ db, runtime, generateAccessToken, authenticateToken 
         usuario = await db.buscarProfessorPorMatricula(matricula);
       }
 
+      let avaliador = null;
+      if (!usuario) {
+        avaliador = await db.avaliacaoOne(
+          "SELECT * FROM avaliadores WHERE matricula = ? AND ativo = 1",
+          [matricula],
+        );
+        if (avaliador) {
+          usuario = { ...avaliador, perfil: "Avaliador" };
+        }
+      }
+
       if (!usuario || usuario.senha !== senha) {
         return res.status(StatusCodes.UNAUTHORIZED).json({
           status: StatusCodes.UNAUTHORIZED,
@@ -46,6 +57,8 @@ function createAuthRouter({ db, runtime, generateAccessToken, authenticateToken 
         matricula: usuario.matricula,
         nome: usuario.nome,
         perfil: usuario.perfil,
+        avaliador_id: avaliador ? avaliador.id : undefined,
+        tipo_avaliador: avaliador ? avaliador.perfil : undefined,
       });
 
       res.json({
@@ -54,6 +67,7 @@ function createAuthRouter({ db, runtime, generateAccessToken, authenticateToken 
         perfil: usuario.perfil,
         primeiro_acesso: usuario.primeiro_acesso === 1,
         token,
+        tipo_avaliador: avaliador ? avaliador.perfil : undefined,
       });
     } catch (error) {
       sendError(res, error);

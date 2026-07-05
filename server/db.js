@@ -90,6 +90,42 @@ async function ensureSchema(seedDatabase) {
 
   const sqlToRun = seedDatabase ? schemaSql : safeSchemaSql;
   await pool.query(sqlToRun.replace(/acompanhamento_lab/g, config.database));
+  await ensureEvaluationMigrations();
+}
+
+async function ensureEvaluationMigrations() {
+  await exec(`CREATE TABLE IF NOT EXISTS desafio_avaliacao (
+    desafio_id INT NOT NULL, avaliacao_id INT NOT NULL,
+    PRIMARY KEY (desafio_id, avaliacao_id),
+    CONSTRAINT fk_desafio_avaliacao_desafio FOREIGN KEY (desafio_id) REFERENCES desafios_avaliacao (id) ON DELETE CASCADE,
+    CONSTRAINT fk_desafio_avaliacao_avaliacao FOREIGN KEY (avaliacao_id) REFERENCES avaliacoes (id) ON DELETE RESTRICT
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci`);
+  await exec(`INSERT IGNORE INTO desafio_avaliacao (desafio_id, avaliacao_id)
+    SELECT id, avaliacao_id FROM desafios_avaliacao WHERE avaliacao_id IS NOT NULL`);
+
+  const resultColumns = await query(`SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_SCHEMA=? AND TABLE_NAME='resultados_avaliacao' AND COLUMN_NAME='avaliacao_id'`, [config.database]);
+  if (!resultColumns.length) {
+    await exec("ALTER TABLE resultados_avaliacao ADD COLUMN avaliacao_id INT NULL AFTER avaliador_id");
+    await exec(`UPDATE resultados_avaliacao r
+      JOIN squads_avaliacao s ON s.id=r.squad_id
+      JOIN desafios_avaliacao d ON d.id=s.desafio_id
+      SET r.avaliacao_id=d.avaliacao_id WHERE r.avaliacao_id IS NULL`);
+  }
+  const oldIndex = await query(`SELECT INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS
+    WHERE TABLE_SCHEMA=? AND TABLE_NAME='resultados_avaliacao' AND INDEX_NAME='uk_resultado_squad_avaliador'`, [config.database]);
+  if (oldIndex.length) {
+    const squadIndex = await query(`SELECT INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS
+      WHERE TABLE_SCHEMA=? AND TABLE_NAME='resultados_avaliacao' AND INDEX_NAME='idx_resultado_squad'`, [config.database]);
+    if (!squadIndex.length) await exec("ALTER TABLE resultados_avaliacao ADD INDEX idx_resultado_squad (squad_id)");
+    const evaluatorIndex = await query(`SELECT INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS
+      WHERE TABLE_SCHEMA=? AND TABLE_NAME='resultados_avaliacao' AND INDEX_NAME='idx_resultado_avaliador'`, [config.database]);
+    if (!evaluatorIndex.length) await exec("ALTER TABLE resultados_avaliacao ADD INDEX idx_resultado_avaliador (avaliador_id)");
+    await exec("ALTER TABLE resultados_avaliacao DROP INDEX uk_resultado_squad_avaliador");
+  }
+  const newIndex = await query(`SELECT INDEX_NAME FROM INFORMATION_SCHEMA.STATISTICS
+    WHERE TABLE_SCHEMA=? AND TABLE_NAME='resultados_avaliacao' AND INDEX_NAME='uk_resultado_squad_avaliador_avaliacao'`, [config.database]);
+  if (!newIndex.length) await exec("ALTER TABLE resultados_avaliacao ADD UNIQUE KEY uk_resultado_squad_avaliador_avaliacao (squad_id, avaliador_id, avaliacao_id)");
 }
 
 async function init() {
@@ -108,6 +144,9 @@ async function close() {
 module.exports = {
   init,
   close,
+  avaliacaoQuery: query,
+  avaliacaoOne: one,
+  avaliacaoExec: exec,
 
   async criarAreaTecnologica(nome) {
     const result = await exec(

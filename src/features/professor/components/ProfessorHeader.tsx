@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { StageInfo, TaskOption } from '../../../shared/types/professor.types'
 
-type ProfessorView = 'dashboard' | 'relatorios'
+type ProfessorView = 'dashboard' | 'relatorios' | 'relatorios-avaliacao'
 
 type ProfessorHeaderProps = {
   etapa: StageInfo
@@ -74,6 +74,16 @@ export default function ProfessorHeader({
               }`}
             >
               Relatorios
+            </Link>
+            <Link
+              to="/professor/relatorios-avaliacao"
+              className={`rounded-xl px-4 py-2 text-sm font-medium transition ${
+                currentView === 'relatorios-avaliacao'
+                  ? 'bg-[#16a085] text-white shadow-[0_10px_24px_rgba(22,160,133,0.28)]'
+                  : 'text-[#aab7c4] hover:bg-white/5 hover:text-white'
+              }`}
+            >
+              Relatórios de Avaliação
             </Link>
           </nav>
         </div>

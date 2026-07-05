@@ -10,7 +10,7 @@ import {
 	type Unidade,
 } from '../services/admin-service'
 
-export type AdminTabKey = 'areas' | 'cursos' | 'unidades' | 'turmas' | 'tarefas' | 'alunos'
+export type AdminTabKey = 'areas' | 'cursos' | 'unidades' | 'turmas' | 'tarefas' | 'alunos' | 'avaliacoes' | 'eventos' | 'desafios' | 'squads' | 'avaliadores'
 export type AdminMessageType = 'success' | 'error' | 'info'
 
 export function useAdminCatalog() {

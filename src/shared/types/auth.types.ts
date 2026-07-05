@@ -6,6 +6,7 @@ export interface AuthUser {
 	perfil: Perfil
 	primeiro_acesso?: boolean
 	token?: string
+	tipo_avaliador?: 'Desafio' | 'Categoria Especial'
 }
 
 export interface LoginRequest {

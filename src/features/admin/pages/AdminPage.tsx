@@ -8,6 +8,7 @@ import TarefasTab from '../components/TarefasTab'
 import TurmasTab from '../components/TurmasTab'
 import UnidadesTab from '../components/UnidadesTab'
 import { type AdminTabKey, useAdminCatalog } from '../hooks/useAdminCatalog'
+import { AvaliacoesTab, AvaliadoresTab, DesafiosTab, EventosTab, SquadsTab } from '../components/EvaluationAdminTabs'
 
 const tabs: Array<{ key: AdminTabKey; label: string }> = [
   { key: 'areas', label: 'Areas Tecnologicas' },
@@ -16,6 +17,11 @@ const tabs: Array<{ key: AdminTabKey; label: string }> = [
   { key: 'turmas', label: 'Turmas' },
   { key: 'tarefas', label: 'Tarefas' },
   { key: 'alunos', label: 'Alunos' },
+  { key: 'avaliacoes', label: 'Avaliações' },
+  { key: 'eventos', label: 'Eventos' },
+  { key: 'desafios', label: 'Desafios' },
+  { key: 'squads', label: 'Squads' },
+  { key: 'avaliadores', label: 'Avaliadores' },
 ]
 
 export default function AdminPage() {
@@ -136,6 +142,12 @@ export default function AdminPage() {
             }}
           />
         )}
+
+        {activeTab === 'avaliacoes' && <AvaliacoesTab />}
+        {activeTab === 'eventos' && <EventosTab />}
+        {activeTab === 'desafios' && <DesafiosTab />}
+        {activeTab === 'squads' && <SquadsTab />}
+        {activeTab === 'avaliadores' && <AvaliadoresTab />}
       </section>
     </main>
   )

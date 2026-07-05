@@ -195,6 +195,60 @@ CREATE TABLE IF NOT EXISTS sessoes (
   PRIMARY KEY (nome)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
+CREATE TABLE IF NOT EXISTS avaliacoes (
+  id INT NOT NULL AUTO_INCREMENT, titulo VARCHAR(255) NOT NULL, descricao TEXT NOT NULL,
+  tipo ENUM('Desafio','Categoria Especial') NOT NULL, ativa TINYINT(1) NOT NULL DEFAULT 1, PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE IF NOT EXISTS criterios_avaliacao (
+  id INT NOT NULL AUTO_INCREMENT, avaliacao_id INT NOT NULL, titulo VARCHAR(255) NOT NULL, descricao TEXT NOT NULL,
+  detalhamento TEXT NOT NULL, pontos_maximos DECIMAL(10,2) NOT NULL, prioridade_desempate TINYINT NOT NULL DEFAULT 3,
+  PRIMARY KEY (id), CONSTRAINT fk_criterios_avaliacao FOREIGN KEY (avaliacao_id) REFERENCES avaliacoes (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE IF NOT EXISTS eventos_avaliacao (
+  id INT NOT NULL AUTO_INCREMENT, nome VARCHAR(255) NOT NULL, descricao TEXT NOT NULL, data_inicio DATETIME NOT NULL,
+  data_fim DATETIME NOT NULL, organizador VARCHAR(255) NOT NULL, PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE IF NOT EXISTS desafios_avaliacao (
+  id INT NOT NULL AUTO_INCREMENT, nome VARCHAR(255) NOT NULL, empresa VARCHAR(255) NOT NULL, descricao TEXT NOT NULL,
+  responsavel VARCHAR(255) NOT NULL, contato_responsavel VARCHAR(255) NOT NULL, evento_id INT NOT NULL, avaliacao_id INT DEFAULT NULL,
+  PRIMARY KEY (id), CONSTRAINT fk_desafios_evento FOREIGN KEY (evento_id) REFERENCES eventos_avaliacao (id) ON DELETE CASCADE,
+  CONSTRAINT fk_desafios_avaliacao FOREIGN KEY (avaliacao_id) REFERENCES avaliacoes (id) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE IF NOT EXISTS desafio_avaliacao (
+  desafio_id INT NOT NULL, avaliacao_id INT NOT NULL, PRIMARY KEY (desafio_id, avaliacao_id),
+  CONSTRAINT fk_desafio_avaliacao_desafio FOREIGN KEY (desafio_id) REFERENCES desafios_avaliacao (id) ON DELETE CASCADE,
+  CONSTRAINT fk_desafio_avaliacao_avaliacao FOREIGN KEY (avaliacao_id) REFERENCES avaliacoes (id) ON DELETE RESTRICT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE IF NOT EXISTS squads_avaliacao (
+  id INT NOT NULL AUTO_INCREMENT, nome VARCHAR(255) NOT NULL, integrantes TEXT NOT NULL, porta_voz VARCHAR(255) NOT NULL,
+  imagem MEDIUMTEXT NULL, desafio_id INT NOT NULL, habilitada TINYINT(1) NOT NULL DEFAULT 1, PRIMARY KEY (id),
+  CONSTRAINT fk_squads_desafio FOREIGN KEY (desafio_id) REFERENCES desafios_avaliacao (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+ALTER TABLE squads_avaliacao MODIFY imagem MEDIUMTEXT NULL;
+CREATE TABLE IF NOT EXISTS avaliadores (
+  id INT NOT NULL AUTO_INCREMENT, matricula VARCHAR(100) NOT NULL, nome VARCHAR(255) NOT NULL, senha VARCHAR(255) NOT NULL,
+  perfil ENUM('Desafio','Categoria Especial') NOT NULL, ativo TINYINT(1) NOT NULL DEFAULT 1, PRIMARY KEY (id),
+  UNIQUE KEY uk_avaliadores_matricula (matricula)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE IF NOT EXISTS avaliador_desafio (
+  avaliador_id INT NOT NULL, desafio_id INT NOT NULL, PRIMARY KEY (avaliador_id, desafio_id),
+  CONSTRAINT fk_avaliador_desafio_avaliador FOREIGN KEY (avaliador_id) REFERENCES avaliadores (id) ON DELETE CASCADE,
+  CONSTRAINT fk_avaliador_desafio_desafio FOREIGN KEY (desafio_id) REFERENCES desafios_avaliacao (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE IF NOT EXISTS resultados_avaliacao (
+  id INT NOT NULL AUTO_INCREMENT, squad_id INT NOT NULL, avaliador_id INT NOT NULL, avaliacao_id INT NOT NULL, submetida TINYINT(1) NOT NULL DEFAULT 1,
+  liberada_edicao TINYINT(1) NOT NULL DEFAULT 0, observacao TEXT NULL,
+  atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (id),
+  UNIQUE KEY uk_resultado_squad_avaliador_avaliacao (squad_id, avaliador_id, avaliacao_id),
+  CONSTRAINT fk_resultado_squad FOREIGN KEY (squad_id) REFERENCES squads_avaliacao (id) ON DELETE CASCADE,
+  CONSTRAINT fk_resultado_avaliador FOREIGN KEY (avaliador_id) REFERENCES avaliadores (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+CREATE TABLE IF NOT EXISTS notas_criterios (
+  resultado_id INT NOT NULL, criterio_id INT NOT NULL, pontos DECIMAL(10,2) NOT NULL, PRIMARY KEY (resultado_id, criterio_id),
+  CONSTRAINT fk_notas_resultado FOREIGN KEY (resultado_id) REFERENCES resultados_avaliacao (id) ON DELETE CASCADE,
+  CONSTRAINT fk_notas_criterio FOREIGN KEY (criterio_id) REFERENCES criterios_avaliacao (id) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
 SET FOREIGN_KEY_CHECKS = 1;
 
 INSERT INTO professores (matricula, nome, senha, perfil, primeiro_acesso)

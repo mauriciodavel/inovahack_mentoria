@@ -6,6 +6,8 @@ import ProfessorPage from '../features/professor/pages/ProfessorPage'
 import AdminPage from '../features/admin/pages/AdminPage'
 import TarefasPage from '../features/tarefas/pages/TarefasPage'
 import ProtectedRoute from '../features/auth/guards/ProtectedRoute'
+import AvaliadorPage from '../features/avaliacao/pages/AvaliadorPage'
+import RelatoriosAvaliacaoPage from '../features/avaliacao/pages/RelatoriosAvaliacaoPage'
 
 function NotFoundPage() {
   return <h1>404 - Pagina nao encontrada</h1>
@@ -32,7 +34,12 @@ export const appRouter = createBrowserRouter([
       </ProtectedRoute>
     ),
   },
-  { path: '/admin', element: <AdminPage /> },
+  {
+    path: '/professor/relatorios-avaliacao',
+    element: <ProtectedRoute allowedRoles={['Professor']}><RelatoriosAvaliacaoPage /></ProtectedRoute>,
+  },
+  { path: '/admin', element: <ProtectedRoute allowedRoles={['Professor']}><AdminPage /></ProtectedRoute> },
+  { path: '/avaliador', element: <ProtectedRoute allowedRoles={['Avaliador']}><AvaliadorPage /></ProtectedRoute> },
   { path: '/tarefas', element: <TarefasPage /> },
   { path: '*', element: <NotFoundPage /> },
 ])
