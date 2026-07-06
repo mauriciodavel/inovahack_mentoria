@@ -42,7 +42,7 @@ export const evaluationService = {
   reabrir: (id: number) => post(`/api/resultados-avaliacao/${id}/reabrir`, {}),
 }
 
-export type PainelSquad = Squad & { desafio_nome: string; evento_nome: string; avaliacao_id: number; avaliacao_titulo: string; avaliacao_descricao: string; avaliacao_ativa: boolean; resultado_id?: number; submetida?: boolean; liberada_edicao?: boolean; observacao?: string }
+export type PainelSquad = Squad & { desafio_nome: string; evento_id: number; evento_nome: string; avaliacao_id: number; avaliacao_titulo: string; avaliacao_descricao: string; avaliacao_ativa: boolean; resultado_id?: number; submetida?: boolean; liberada_edicao?: boolean; observacao?: string }
 export type PainelAvaliador = { avaliador: Avaliador; squads: PainelSquad[]; criterios: Criterio[]; notas: Array<{ resultado_id: number; criterio_id: number; pontos: number }> }
 export type RankingItem = { id: number; nome: string; desafio_id: number; desafio: string; evento_id: number; evento: string; pontuacao_media: number; avaliacoes: number }
 export type CriterioRelatorio = { id: number; titulo: string; pontos_maximos: number; avaliacao_id: number; avaliacao: string }

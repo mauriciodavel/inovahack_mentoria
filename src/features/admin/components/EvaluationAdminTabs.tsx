@@ -18,8 +18,28 @@ function Actions({ onEdit, onDelete }: { onEdit: () => void; onDelete: () => voi
 }
 
 function readImage(file: File, onLoad: (value: string) => void) {
+  if (file.size > 10 * 1024 * 1024) {
+    window.alert('A imagem deve ter no máximo 10 MB.')
+    return
+  }
+
   const reader = new FileReader()
-  reader.onload = () => onLoad(String(reader.result || ''))
+  reader.onload = () => {
+    const image = new Image()
+    image.onload = () => {
+      const maxDimension = 1200
+      const scale = Math.min(1, maxDimension / Math.max(image.width, image.height))
+      const canvas = document.createElement('canvas')
+      canvas.width = Math.max(1, Math.round(image.width * scale))
+      canvas.height = Math.max(1, Math.round(image.height * scale))
+      const context = canvas.getContext('2d')
+      if (!context) return
+      context.drawImage(image, 0, 0, canvas.width, canvas.height)
+      onLoad(canvas.toDataURL('image/jpeg', 0.82))
+    }
+    image.onerror = () => window.alert('Não foi possível processar a imagem selecionada.')
+    image.src = String(reader.result || '')
+  }
   reader.readAsDataURL(file)
 }
 

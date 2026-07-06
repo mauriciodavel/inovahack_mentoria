@@ -123,7 +123,7 @@ function createEvaluationsRouter({ db, authenticateToken }) {
   router.get("/avaliador/painel", ...avaliador, handle(async (req, res) => {
     const av = await one("SELECT id,nome,perfil FROM avaliadores WHERE id=? AND ativo=1", [req.user.avaliador_id]);
     if (!av) return res.status(403).json({ error: "Avaliador inativo" });
-    const squads = await q(`SELECT s.*,d.nome desafio_nome,e.nome evento_nome,a.id avaliacao_id,a.titulo avaliacao_titulo,
+    const squads = await q(`SELECT s.*,d.nome desafio_nome,e.id evento_id,e.nome evento_nome,a.id avaliacao_id,a.titulo avaliacao_titulo,
       a.descricao avaliacao_descricao,a.ativa avaliacao_ativa,r.id resultado_id,r.submetida,r.liberada_edicao,r.observacao
       FROM avaliador_desafio ad JOIN desafios_avaliacao d ON d.id=ad.desafio_id JOIN eventos_avaliacao e ON e.id=d.evento_id
       JOIN desafio_avaliacao da ON da.desafio_id=d.id JOIN avaliacoes a ON a.id=da.avaliacao_id JOIN squads_avaliacao s ON s.desafio_id=d.id
