@@ -16,7 +16,12 @@ const { createClassroomRuntime } = require("./runtime/classroomRuntime");
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: true,
+    credentials: true,
+  },
+});
 const PORTA = Number(process.env.PORT || 3000);
 const ROOT = path.join(__dirname, "..");
 

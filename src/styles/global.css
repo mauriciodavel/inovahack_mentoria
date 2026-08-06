@@ -5,6 +5,18 @@
   box-sizing: border-box;
 }
 
+input,
+select,
+textarea,
+button {
+  min-width: 0;
+  max-width: 100%;
+}
+
+select {
+  text-overflow: ellipsis;
+}
+
 html,
 body,
 #root {
