@@ -26,9 +26,11 @@ function createAuthRouter({ db, runtime, generateAccessToken, authenticateToken 
         });
       }
 
-      let usuario = await db.buscarAlunoPorMatricula(matricula);
+      const aluno = await db.buscarAlunoPorMatricula(matricula);
+      let usuario = aluno?.senha === senha ? aluno : null;
       if (!usuario) {
-        usuario = await db.buscarProfessorPorMatricula(matricula);
+        const professor = await db.buscarProfessorPorMatricula(matricula);
+        usuario = professor?.senha === senha ? professor : null;
       }
 
       let avaliador = null;
@@ -85,10 +87,12 @@ function createAuthRouter({ db, runtime, generateAccessToken, authenticateToken 
         });
       }
 
-      let usuario = await db.buscarAlunoPorMatricula(matricula);
+      const aluno = await db.buscarAlunoPorMatricula(matricula);
+      let usuario = aluno?.senha === senha_atual ? aluno : null;
       let tabela = "alunos";
       if (!usuario) {
-        usuario = await db.buscarProfessorPorMatricula(matricula);
+        const professor = await db.buscarProfessorPorMatricula(matricula);
+        usuario = professor?.senha === senha_atual ? professor : null;
         tabela = "professores";
       }
 
