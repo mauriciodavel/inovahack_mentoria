@@ -26,11 +26,11 @@ export default function ChangePasswordForm({
 	}
 
 	return (
-		<form onSubmit={handleSubmit} className="space-y-5">
-			<div>
+		<form onSubmit={handleSubmit} className="event-login-form">
+			<div className="event-field">
 				<label
 					htmlFor="senha-atual"
-					className="mb-2 block text-sm font-semibold text-slate-700"
+					className="event-label"
 				>
 					Senha Atual
 				</label>
@@ -40,14 +40,14 @@ export default function ChangePasswordForm({
 					value={senhaAtual}
 					onChange={(event) => setSenhaAtual(event.target.value)}
 					required
-					className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none ring-blue-500/30 transition focus:border-blue-500 focus:ring-4"
+					className="event-input"
 				/>
 			</div>
 
-			<div>
+			<div className="event-field">
 				<label
 					htmlFor="nova-senha"
-					className="mb-2 block text-sm font-semibold text-slate-700"
+					className="event-label"
 				>
 					Nova Senha
 				</label>
@@ -58,15 +58,15 @@ export default function ChangePasswordForm({
 					onChange={(event) => setNovaSenha(event.target.value)}
 					required
 					minLength={8}
-					className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none ring-blue-500/30 transition focus:border-blue-500 focus:ring-4"
+					className="event-input"
 				/>
-				<p className="mt-1 text-xs leading-5 text-slate-500">{getStrongPasswordMessage()}</p>
+				<p className="event-help">{getStrongPasswordMessage()}</p>
 			</div>
 
-			<div>
+			<div className="event-field">
 				<label
 					htmlFor="confirmar-senha"
-					className="mb-2 block text-sm font-semibold text-slate-700"
+					className="event-label"
 				>
 					Confirmar Nova Senha
 				</label>
@@ -77,14 +77,14 @@ export default function ChangePasswordForm({
 					onChange={(event) => setConfirmarSenha(event.target.value)}
 					required
 					minLength={8}
-					className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none ring-blue-500/30 transition focus:border-blue-500 focus:ring-4"
+					className="event-input"
 				/>
 			</div>
 
 			<button
 				type="submit"
 				disabled={loading}
-				className="w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400"
+				className="event-submit"
 			>
 				{loading ? 'Alterando...' : 'Alterar Senha'}
 			</button>

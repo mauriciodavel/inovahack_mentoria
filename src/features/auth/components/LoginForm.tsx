@@ -15,13 +15,13 @@ export default function LoginForm({ onSubmit, loading }: LoginFormProps) {
 	}
 
 	return (
-		<form onSubmit={handleSubmit} className="space-y-5">
-			<div>
+		<form onSubmit={handleSubmit} className="event-login-form">
+			<div className="event-field">
 				<label
 					htmlFor="matricula"
-					className="mb-2 block text-sm font-semibold text-slate-700"
+					className="event-label"
 				>
-					Matricula
+					Matrícula
 				</label>
 				<input
 					id="matricula"
@@ -29,14 +29,15 @@ export default function LoginForm({ onSubmit, loading }: LoginFormProps) {
 					onChange={(event) => setMatricula(event.target.value)}
 					required
 					autoComplete="username"
-					className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none ring-blue-500/30 transition focus:border-blue-500 focus:ring-4"
+					placeholder="Digite sua matrícula"
+					className="event-input"
 				/>
 			</div>
 
-			<div>
+			<div className="event-field">
 				<label
 					htmlFor="senha"
-					className="mb-2 block text-sm font-semibold text-slate-700"
+					className="event-label"
 				>
 					Senha
 				</label>
@@ -47,16 +48,18 @@ export default function LoginForm({ onSubmit, loading }: LoginFormProps) {
 					onChange={(event) => setSenha(event.target.value)}
 					required
 					autoComplete="current-password"
-					className="w-full rounded-lg border border-slate-300 px-3 py-2.5 text-sm outline-none ring-blue-500/30 transition focus:border-blue-500 focus:ring-4"
+					placeholder="Digite sua senha"
+					className="event-input"
 				/>
 			</div>
 
 			<button
 				type="submit"
 				disabled={loading}
-				className="w-full rounded-lg bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-slate-400"
+				className="event-submit"
 			>
-				{loading ? 'Entrando...' : 'Entrar'}
+				<span>{loading ? 'Entrando...' : 'Entrar no ambiente'}</span>
+				{!loading && <span aria-hidden="true">→</span>}
 			</button>
 		</form>
 	)
