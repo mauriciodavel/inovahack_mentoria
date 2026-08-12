@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import './tokens.css';
 
+.mb-5.mt-1.text-sm.text-\[\#bdc3c7\] {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
 * {
   box-sizing: border-box;
 }
